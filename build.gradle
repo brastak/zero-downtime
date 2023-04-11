@@ -1,0 +1,67 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.0.0'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'org.liquibase.gradle' version '2.2.0'
+}
+
+group 'codes.bespoke.brastak.snippets'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    hikariVersion = '5.0.1'
+    postgresVersion = '42.5.1'
+    mapStructVersion = '1.5.3.Final'
+    liquibaseVersion = '4.19.0'
+    picocliVersion = '4.6.1'
+    jacksonVersion = '2.14.1'
+    junitVersion = '5.8.1'
+}
+
+dependencies {
+    // SpringBoot dependencies
+    implementation ('org.springframework.boot:spring-boot-starter-web') {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
+    implementation ('org.springframework.boot:spring-boot-starter-data-jdbc') {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
+    implementation ('org.springframework.boot:spring-boot-starter-actuator') {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
+
+    // Use Log4J2 instead of SLF4J
+    implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+
+    // Log4J2 YAML config support
+    runtimeOnly "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${jacksonVersion}"
+
+    // MapStruct dependencies
+    implementation "org.mapstruct:mapstruct:${mapStructVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
+
+    // Postgres database dependencies
+    runtimeOnly "com.zaxxer:HikariCP:${hikariVersion}"
+    runtimeOnly "org.postgresql:postgresql:${postgresVersion}"
+
+    // Liquibase dependencies
+    liquibaseRuntime "org.liquibase:liquibase-core:${liquibaseVersion}"
+    liquibaseRuntime "info.picocli:picocli:${picocliVersion}"
+    liquibaseRuntime "org.postgresql:postgresql:${postgresVersion}"
+}
+
+liquibase {
+    activities {
+        main {
+            changelogFile 'liquibase/db/changelog/db.changelog-master.yaml'
+            url project.ext.properties['db_url']
+            username 'postgres'
+            password project.ext.properties['db_password']
+            logLevel 'info'
+        }
+    }
+}

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zero-dt-deployment
+  labels:
+    app: zero-dt-app
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: zero-dt-app
+  template:
+    metadata:
+      labels:
+        app: zero-dt-app
+    spec:
+      containers:
+        - name: zero-dt-app
+          image: zero-dt-app:1.0.0
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: zero-dt-config
+            - secretRef:
+                name: zero-dt-secret
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - sleep
+                  - "10"
+          startupProbe:
+            httpGet:
+              path: "/actuator/health/readiness"
+              port: 8080
+            failureThreshold: 30
+            periodSeconds: 2

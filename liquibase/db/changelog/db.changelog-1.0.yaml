@@ -1,0 +1,48 @@
+databaseChangeLog:
+  - changeSet:
+      id: "1.0.0"
+      author: brastak
+      changes:
+        - createTable:
+            tableName: post
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: author
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: subject
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: text
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: published
+                  type: boolean
+                  constraints:
+                    nullable: false
+        - createIndex:
+            indexName: idx_post_author
+            tableName: post
+            columns:
+              - column:
+                  name: author
+        - createIndex:
+            indexName: idx_post_published
+            tableName: post
+            columns:
+              - column:
+                  name: published
+        - tagDatabase:
+            tag: '1.0'

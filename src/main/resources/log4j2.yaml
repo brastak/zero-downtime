@@ -1,0 +1,20 @@
+Configuration:
+  status: warn
+  appenders:
+    Console:
+      name: STDOUT
+      target: SYSTEM_OUT
+      PatternLayout:
+        disableAnsi: false
+        pattern: "%style{%d{ISO8601}}{magenta} %highlight{%-5level} %style{%X}{bright,white} [%style{%t}{bright,blue}] %style{%C{1.}}{bright,yellow}: %msg%n%throwable"
+  Loggers:
+    Logger:
+      - name: codes.bespoke.brastak
+        additivity: false
+        level: debug
+        AppenderRef:
+          ref: STDOUT
+    Root:
+      level: info
+      AppenderRef:
+        ref: STDOUT
