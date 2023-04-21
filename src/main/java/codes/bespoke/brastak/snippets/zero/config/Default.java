@@ -1,4 +1,4 @@
-package codes.bespoke.brastak.snippets.zero.mapper;
+package codes.bespoke.brastak.snippets.zero.config;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,4 +1,0 @@
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:32770/postgres
-    password: postgrespw

@@ -18,6 +18,7 @@ ext {
     mapStructVersion = '1.5.3.Final'
     liquibaseVersion = '4.19.0'
     picocliVersion = '4.6.1'
+    togglzVersion = '3.1.2'
     jacksonVersion = '2.14.1'
     junitVersion = '5.8.1'
 }
@@ -33,6 +34,9 @@ dependencies {
     implementation ('org.springframework.boot:spring-boot-starter-actuator') {
         exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
     }
+
+    // Togglz dependency
+    implementation("org.togglz:togglz-spring-boot-starter:${togglzVersion}")
 
     // Use Log4J2 instead of SLF4J
     implementation 'org.springframework.boot:spring-boot-starter-log4j2'

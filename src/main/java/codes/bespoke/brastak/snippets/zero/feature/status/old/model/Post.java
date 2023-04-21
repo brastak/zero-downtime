@@ -1,6 +1,6 @@
-package codes.bespoke.brastak.snippets.zero.model;
+package codes.bespoke.brastak.snippets.zero.feature.status.old.model;
 
-import codes.bespoke.brastak.snippets.zero.mapper.Default;
+import codes.bespoke.brastak.snippets.zero.config.Default;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceCreator;
 

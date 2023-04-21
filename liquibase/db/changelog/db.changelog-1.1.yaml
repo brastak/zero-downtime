@@ -1,0 +1,88 @@
+databaseChangeLog:
+  - changeSet:
+      id: "1.1.0"
+      author: brastak
+      changes:
+        - addColumn:
+            tableName: post
+            columns:
+              - column:
+                  name: status
+                  type: text
+        - dropNotNullConstraint:
+            tableName: post
+            columnName: published
+        - tagDatabase:
+            tag: 1.1_BEFORE_MIGRATION
+  - changeSet:
+      id: "1.1.1"
+      author: brastak
+      runInTransaction: false
+      changes:
+        - sql:
+            do '
+              begin
+                loop 
+                  with cte as (
+                    select id from post where published and status is null limit 250 for update skip locked
+                  ) update post set status = ''PUBLISHED'' from cte where post.id = cte.id;
+                  exit when not found;
+                  commit;
+                end loop;
+              end
+            '
+        - sql:
+            do '
+              begin
+                loop
+                  with cte as (
+                    select id from post where not published and status is null limit 250 for update skip locked
+                  ) update post set status = ''UNPUBLISHED'' from cte where post.id = cte.id;
+                  exit when not found;
+                  commit;
+                end loop;
+              end
+            '
+        - sql:
+            create index concurrently idx_post_status on post(status)
+        - tagDatabase:
+            tag: 1.1_AFTER_MIGRATION
+      rollback:
+        - dropIndex:
+            indexName: idx_post_status
+            tableName: post
+  - changeSet:
+      id: "1.1.2"
+      author: brastak
+      changes:
+        - sql:
+            alter table post add constraint post_status_not_null check (status is not null) not valid
+        - sql:
+            alter table post validate constraint post_status_not_null
+        - sql:
+            alter table post alter column status set not null
+        - sql:
+            alter table post drop constraint post_status_not_null
+        - dropColumn:
+            tableName: post
+            columnName: published
+        - tagDatabase:
+            tag: '1.1'
+      rollback:
+        - addColumn:
+            tableName: post
+            columns:
+              - column:
+                  name: published
+                  type: boolean
+        - sql:
+            update post set published = (status = 'PUBLISHED') where published is null
+        - createIndex:
+            indexName: idx_post_published
+            tableName: post
+            columns:
+              - column:
+                  name: published
+        - dropNotNullConstraint:
+            tableName: post
+            columnName: status
