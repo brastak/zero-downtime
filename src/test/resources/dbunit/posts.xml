@@ -1,0 +1,26 @@
+<dataset>
+    <post id="1" author="tester" subject="test subject" text="test post body" published="true"/>
+    <post id="2" author="tester" subject="one more subject" text="one more test post body" published="false"/>
+
+    <post id="3" author="spammer" subject="spam" text="spam body" published="true"/>
+    <post id="4" author="spammer" subject="spam" text="spam body" published="true"/>
+    <post id="5" author="spammer" subject="spam" text="spam body" published="true"/>
+    <post id="6" author="spammer" subject="spam" text="spam body" published="true"/>
+    <post id="7" author="spammer" subject="spam" text="spam body" published="true"/>
+    <post id="8" author="spammer" subject="spam" text="spam body" published="true"/>
+    <post id="9" author="spammer" subject="spam" text="spam body" published="true"/>
+    <post id="10" author="spammer" subject="spam" text="spam body" published="true"/>
+    <post id="11" author="spammer" subject="spam" text="spam body" published="true"/>
+    <post id="12" author="spammer" subject="spam" text="spam body" published="true"/>
+    <post id="13" author="spammer" subject="spam" text="spam body" published="true"/>
+    <post id="14" author="spammer" subject="spam" text="spam body" published="true"/>
+    <post id="15" author="spammer" subject="spam" text="spam body" published="true"/>
+    <post id="16" author="spammer" subject="spam" text="spam body" published="true"/>
+    <post id="17" author="spammer" subject="spam" text="spam body" published="true"/>
+    <post id="18" author="spammer" subject="spam" text="spam body" published="true"/>
+    <post id="19" author="spammer" subject="spam" text="spam body" published="true"/>
+    <post id="20" author="spammer" subject="spam" text="spam body" published="true"/>
+    <post id="21" author="spammer" subject="spam" text="spam body" published="true"/>
+    <post id="22" author="spammer" subject="spam" text="spam body" published="true"/>
+    <post id="23" author="spammer" subject="spam" text="spam body" published="true"/>
+</dataset>

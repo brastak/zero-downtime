@@ -19,7 +19,10 @@ ext {
     liquibaseVersion = '4.19.0'
     picocliVersion = '4.6.1'
     jacksonVersion = '2.14.1'
-    junitVersion = '5.8.1'
+    junitVersion = '5.9.3'
+    testContainersVersion = '1.18.1'
+    dbUnitVersion = '2.7.3'
+    springTestDbUnitVersion = '1.3.0'
 }
 
 dependencies {
@@ -44,6 +47,24 @@ dependencies {
     implementation "org.mapstruct:mapstruct:${mapStructVersion}"
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
 
+    // SpringBoot test
+    testImplementation ('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
+
+    // Test containers for JUnit 5
+    testImplementation "org.testcontainers:postgresql:${testContainersVersion}"
+    testImplementation "org.testcontainers:junit-jupiter:${testContainersVersion}"
+
+    // DBUnit
+    testImplementation "org.dbunit:dbunit:${dbUnitVersion}"
+
+    // DBUnit integration for SpringBoot test
+    testImplementation "com.github.springtestdbunit:spring-test-dbunit:${springTestDbUnitVersion}"
+
+    // Liquibase for DB schema preparation in tests
+    testRuntimeOnly "org.liquibase:liquibase-core:${liquibaseVersion}"
+
     // Postgres database dependencies
     runtimeOnly "com.zaxxer:HikariCP:${hikariVersion}"
     runtimeOnly "org.postgresql:postgresql:${postgresVersion}"
@@ -64,4 +85,16 @@ liquibase {
             logLevel 'info'
         }
     }
+}
+
+sourceSets {
+    test {
+        resources {
+            srcDirs += 'liquibase'
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
 }
